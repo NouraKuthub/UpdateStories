@@ -1,20 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useState, useEffect } from "react";
+import React from 'react';
+import { AppContext } from "./Context/Constant";
+import { getData } from './Api/Axios';
+import Router from './Routes'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+
+const App = () => {
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        getUserDetails()
+    }, [])
+    const getUserDetails = async () => {
+        const api = await getData('');
+        setData(api);
+    }
+    return (
+        <AppContext.Provider value={{ data, setData }}>
+          <Router/>
+        </AppContext.Provider>
+    )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
